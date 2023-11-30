@@ -231,7 +231,7 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
                             modifier = Modifier
                                 .height(60.dp)
                                 .width(60.dp)
-                                .clickable { navController.navigate("") }
+                                .clickable { navController.navigate("penitipan") }
                         )
                     }
 

@@ -29,6 +29,7 @@ import com.example.petapp.Page.OnBoarding1
 import com.example.petapp.Page.OnBoarding2
 import com.example.petapp.Page.OnBoarding3
 import com.example.petapp.Page.HomePage
+import com.example.petapp.Page.Penitipan.Penitipan
 
 class MainActivity : ComponentActivity() {
 
@@ -74,6 +75,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable(route = "konsultasi") {
                     Konsultasi(navController)
+                }
+                composable(route = "penitipan") {
+                    Penitipan(navController)
                 }
 //                composable(
 //                    route = "edituser/{userid}/{username}/{email}",
