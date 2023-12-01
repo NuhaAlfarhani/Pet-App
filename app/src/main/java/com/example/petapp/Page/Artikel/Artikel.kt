@@ -61,7 +61,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun Artikel(navController: NavController, context: Context = LocalContext.current) {
     val baseColor = Color(0xFF00676C)
     val artikel1 = painterResource(id = R.drawable.artikel1)
-    val artikel2 = painterResource(id = R.drawable.artikel2)
     var search by remember { mutableStateOf(TextFieldValue("")) }
 
     val listArtikel = remember { mutableStateListOf<ArtikelRespon>() }
@@ -96,7 +95,6 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
         }
 
     })
-
 
     Scaffold(
         topBar = {
@@ -169,7 +167,6 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
             LazyColumn {
                 listArtikel.forEach { artikel ->
                     item {
-
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier

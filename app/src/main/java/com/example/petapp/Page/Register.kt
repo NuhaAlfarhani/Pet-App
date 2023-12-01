@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -63,9 +67,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 fun Register(navController: NavController, context: Context = LocalContext.current){
     val baseColor = Color(0xFF00676C)
     val imageRegister = painterResource(id = R.drawable.register)
+    var nama by remember { mutableStateOf(TextFieldValue("")) }
     var username by remember { mutableStateOf(TextFieldValue("")) }
     var password by remember { mutableStateOf(TextFieldValue("")) }
     var email by remember { mutableStateOf(TextFieldValue("")) }
+    var nohp by remember { mutableStateOf(TextFieldValue("")) }
+    var alamat by remember { mutableStateOf(TextFieldValue("")) }
+
     val eyeOpen = painterResource(id = R.drawable.view)
     val eyeClose = painterResource(id = R.drawable.hidden)
     var passwordVisibility by remember { mutableStateOf(false) }
@@ -92,8 +100,25 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                 contentDescription = null,
                 alignment = Alignment.Center,
                 modifier = Modifier
-                    .height(300.dp)
-                    .width(200.dp)
+                    .height(100.dp)
+                    .width(100.dp)
+            )
+
+            OutlinedTextField(
+                value = nama,
+                onValueChange = { newText ->
+                    nama = newText
+                },
+                label = { Text(text = "Nama Lengkap", fontFamily = FontFamily(Font(R.font.poppins_regular))) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 6.dp),
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Person,
+                        contentDescription = "Nama",
+                    )
+                }
             )
 
             OutlinedTextField(
@@ -108,7 +133,7 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                 leadingIcon = {
                     Icon(
                         Icons.Default.AccountCircle,
-                        contentDescription = null,
+                        contentDescription = "Username",
                     )
                 }
             )
@@ -125,7 +150,7 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                 leadingIcon = {
                     Icon(
                         Icons.Default.Email,
-                        contentDescription = null,
+                        contentDescription = "Email",
                     )
                 }
             )
@@ -142,11 +167,11 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 38.dp),
+                    .padding(bottom = 6.dp),
                 leadingIcon = {
                     Icon(
                         Icons.Default.Lock,
-                        contentDescription = null,
+                        contentDescription = "Password",
                     )
                 },
                 trailingIcon = {
@@ -161,6 +186,42 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                 }
             )
 
+            OutlinedTextField(
+                value = nohp,
+                onValueChange = { newText ->
+                    nohp = newText
+                },
+                label = { Text(text = "Nomor Telepon", fontFamily = FontFamily(Font(R.font.poppins_regular))) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 6.dp),
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Phone,
+                        contentDescription = "Nohp",
+                    )
+                }
+            )
+
+            OutlinedTextField(
+                value = alamat,
+                onValueChange = { newText ->
+                    alamat = newText
+                },
+                label = { Text(text = "Alamat", fontFamily = FontFamily(Font(R.font.poppins_regular)),
+                    modifier = Modifier.padding(top = 8.dp)) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 18.dp)
+                    .height(80.dp),
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.Place,
+                        contentDescription = "Alamat",
+                    )
+                }
+            )
+
             ElevatedButton(onClick = {
                 var baseUrl = "http://10.0.2.2:1337/api/"
                 //var baseUrl = "http://10.217.17.11:1337/api/"
@@ -170,7 +231,7 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(RegisterService::class.java)
-                val call = retrofit.saveData(RegisterData(email.text, username.text, password.text))
+                val call = retrofit.saveData(RegisterData(nama.text, email.text, username.text, password.text, nohp.text, alamat.text))
                 call.enqueue(object : Callback<LoginRespon> {
                     override fun onResponse(
                         call: Call<LoginRespon>,
