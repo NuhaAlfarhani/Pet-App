@@ -1,6 +1,7 @@
 package com.example.petapp.Page.Artikel
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -79,21 +80,23 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
         ) {
             if (response.isSuccessful) {
                 listArtikel.clear()
-                response.body()?.forEach { artikelRespon ->
-                    listArtikel.add(artikelRespon)
+                response.body()?.let { artikelRespon ->
+                    listArtikel.addAll(artikelRespon)
                 }
             } else {
-                val message = response.errorBody()?.string() ?: "Unknown error"
-                print("Error: $message")
-
-                Toast.makeText(context, "Terjadi kesalahan: $message", Toast.LENGTH_SHORT).show()
+                print("Error getting data. Code: ${response.code()}")
+                Toast.makeText(
+                    context,
+                    "Error getting data. Code: ${response.code()}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
         override fun onFailure(call: Call<List<ArtikelRespon>>, t: Throwable) {
             print(t.message)
+            Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
         }
-
     })
 
     Scaffold(
@@ -173,20 +176,20 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
                                 .fillMaxWidth()
                                 .clickable { navController.navigate("detailartikel") }
                         ) {
-                            Box {
-                                Image(
-                                    painter = artikel1,
-                                    contentDescription = null,
-                                    alignment = Alignment.Center,
-                                    modifier = Modifier
-                                        .height(100.dp)
-                                        .width(100.dp)
-                                        .padding(end = 12.dp)
-                                        .clickable { navController.navigate("detailartikel") }
-                                )
-                            }
+//                            Box {
+//                                Image(
+//                                    painter = artikel1,
+//                                    contentDescription = null,
+//                                    alignment = Alignment.Center,
+//                                    modifier = Modifier
+//                                        .height(100.dp)
+//                                        .width(100.dp)
+//                                        .padding(end = 12.dp)
+//                                        .clickable { navController.navigate("detailartikel") }
+//                                )
+//                            }
                             Text(
-                                text = artikel.judul_artikel,
+                                text = artikel.attributes.judulArtikel,
                                 fontFamily = FontFamily(Font(R.font.poppins_medium))
                             )
                         }

@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -30,6 +31,7 @@ import com.example.petapp.Page.OnBoarding2
 import com.example.petapp.Page.OnBoarding3
 import com.example.petapp.Page.HomePage
 import com.example.petapp.Page.Penitipan.Penitipan
+import com.example.petapp.Page.Profil.Account
 
 class MainActivity : ComponentActivity() {
 
@@ -79,6 +81,9 @@ class MainActivity : ComponentActivity() {
                 composable(route = "penitipan") {
                     Penitipan(navController)
                 }
+                composable(route = "account") {
+                    Account(navController)
+                }
 //                composable(
 //                    route = "edituser/{userid}/{username}/{email}",
 //                ) {backStackEntry ->
@@ -89,7 +94,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 @Composable
-fun BottomNavigation() {
+fun BottomNavigation(navController: NavController) {
     NavigationBar {
         val bottomNavigation = listOf(
             BottomNavItem(
@@ -105,20 +110,20 @@ fun BottomNavigation() {
             BottomNavItem(
                 label = "Chat",
                 icon = Icons.Default.Email,
-                route = "chat"
+                route = "konsultasi"
             ),
             BottomNavItem(
                 label = "Profile",
                 icon = Icons.Default.AccountCircle,
-                route = "profil"
+                route = "account"
             )
         )
         bottomNavigation.map {
             NavigationBarItem(
                 selected = it.label == bottomNavigation[0].label,
-                onClick = { },
+                onClick = { navController.navigate(it.route) },
                 icon = { Icon(imageVector = it.icon, contentDescription = it.label) },
-                label = {Text(text = it.label)}
+                label = {Text(text = it.label)},
             )
         }
     }

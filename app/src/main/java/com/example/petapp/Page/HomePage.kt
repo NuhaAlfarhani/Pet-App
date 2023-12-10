@@ -1,7 +1,6 @@
 package com.example.petapp.Page
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,7 +31,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -52,13 +50,6 @@ import androidx.navigation.NavController
 import com.example.petapp.BottomNavigation
 import com.example.petapp.PreferencesManager
 import com.example.petapp.R
-import com.example.petapp.response.UserRespon
-import com.example.petapp.service.UserService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -73,42 +64,7 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
     //var listUser: List<UserRespon> = remember
     var search by remember { mutableStateOf(TextFieldValue("")) }
     val preferencesManager = remember { PreferencesManager(context = context) }
-    val listUser = remember { mutableStateListOf<UserRespon>() }
-    //var listUser: List<UserRespon> by remember { mutableStateOf(List<UserRespon>()) }
-    var baseUrl = "http://10.0.2.2:1337/api/"
-    //var baseUrl = "http://10.217.17.11:1337/api/"
-    val retrofit = Retrofit.Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(UserService::class.java)
-    val call = retrofit.getData()
-    call.enqueue(object : Callback<List<UserRespon>> {
-        override fun onResponse(
-            call: Call<List<UserRespon>>,
-            response: Response<List<UserRespon>>
-        ) {
-            if (response.code() == 200) {
-                //kosongkan list User terlebih dahulu
-                listUser.clear()
-                response.body()?.forEach { userRespon ->
-                    listUser.add(userRespon)
-                }
-            } else if (response.code() == 400) {
-                print("error login")
-                var toast = Toast.makeText(
-                    context,
-                    "Username atau password salah",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
 
-        override fun onFailure(call: Call<List<UserRespon>>, t: Throwable) {
-            print(t.message)
-        }
-
-    })
     Scaffold(
         topBar = {
             TopAppBar(
@@ -133,7 +89,7 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
             )
         },
         bottomBar = {
-            BottomNavigation()
+            BottomNavigation(navController)
         }
     ) { innerPadding ->
         Column(
