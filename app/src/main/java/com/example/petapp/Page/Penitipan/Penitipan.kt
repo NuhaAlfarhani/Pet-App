@@ -168,7 +168,7 @@ fun Penitipan(navController: NavController, context: Context = LocalContext.curr
 //                        ) {
 //                            Box{
 //                                Image(
-//                                    painter = artikel1,
+//                                    painter = ,
 //                                    contentDescription = null,
 //                                    alignment = Alignment.Center,
 //                                    modifier = Modifier
