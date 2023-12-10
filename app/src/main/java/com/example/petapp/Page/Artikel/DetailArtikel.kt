@@ -43,8 +43,6 @@ fun DetailArtikel(navController: NavController) {
     val baseColor = Color(0xFF00676C)
     val artikel1 = painterResource(id = R.drawable.artikel1)
 
-    var search by remember { mutableStateOf(TextFieldValue("")) }
-
     Scaffold(
         topBar = {
             TopAppBar(
