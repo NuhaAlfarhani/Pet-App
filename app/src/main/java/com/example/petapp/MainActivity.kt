@@ -72,8 +72,9 @@ class MainActivity : ComponentActivity() {
                 composable(route = "artikel") {
                     Artikel(navController)
                 }
-                composable(route = "detailartikel") {
-                    DetailArtikel(navController)
+                composable("detailartikel/{artikelId}") { backStackEntry ->
+                    val artikelId = backStackEntry.arguments?.getInt("artikelId") ?: 0
+                    DetailArtikel(navController = navController, artikelId = artikelId)
                 }
                 composable(route = "konsultasi") {
                     Konsultasi(navController)

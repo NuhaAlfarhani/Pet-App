@@ -1,7 +1,6 @@
 package com.example.petapp.Page.Artikel
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,8 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
@@ -49,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.petapp.R
+import com.example.petapp.response.Artikel
 import com.example.petapp.response.ArtikelRespon
 import com.example.petapp.service.ArtikelService
 import retrofit2.Call
@@ -73,15 +71,15 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
         .build()
         .create(ArtikelService::class.java)
     val call = retrofit.getData()
-    call.enqueue(object : Callback<List<ArtikelRespon>> {
+    call.enqueue(object : Callback<Artikel<List<ArtikelRespon>>> {
         override fun onResponse(
-            call: Call<List<ArtikelRespon>>,
-            response: Response<List<ArtikelRespon>>
+            call: Call<Artikel<List<ArtikelRespon>>>,
+            response: Response<Artikel<List<ArtikelRespon>>>
         ) {
             if (response.isSuccessful) {
                 listArtikel.clear()
-                response.body()?.let { artikelRespon ->
-                    listArtikel.addAll(artikelRespon)
+                response.body()?.data!!.forEach{ artikelRespon : ArtikelRespon->
+                    listArtikel.add(artikelRespon)
                 }
             } else {
                 print("Error getting data. Code: ${response.code()}")
@@ -93,7 +91,7 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
             }
         }
 
-        override fun onFailure(call: Call<List<ArtikelRespon>>, t: Throwable) {
+        override fun onFailure(call: Call<Artikel<List<ArtikelRespon>>>, t: Throwable) {
             print(t.message)
             Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
         }
@@ -130,8 +128,7 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(18.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(18.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
@@ -168,26 +165,27 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
             )
 
             LazyColumn {
-                listArtikel.forEach { artikel ->
+                listArtikel?.forEach { artikel ->
                     item {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { navController.navigate("detailartikel") }
+                                .clickable { navController.navigate("detailartikel/${artikel.id}") }
                         ) {
-//                            Box {
-//                                Image(
-//                                    painter = artikel1,
-//                                    contentDescription = null,
-//                                    alignment = Alignment.Center,
-//                                    modifier = Modifier
-//                                        .height(100.dp)
-//                                        .width(100.dp)
-//                                        .padding(end = 12.dp)
-//                                        .clickable { navController.navigate("detailartikel") }
-//                                )
-//                            }
+                            Box {
+                                Image(
+                                    painter = artikel1,
+                                    contentDescription = null,
+                                    alignment = Alignment.Center,
+                                    modifier = Modifier
+                                        .height(100.dp)
+                                        .width(100.dp)
+                                        .padding(end = 12.dp)
+                                        .clickable { navController.navigate("detailartikel/${artikel.id}") }
+                                )
+                            }
+
                             Text(
                                 text = artikel.attributes.judulArtikel,
                                 fontFamily = FontFamily(Font(R.font.poppins_medium))
