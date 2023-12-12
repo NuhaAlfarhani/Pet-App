@@ -135,19 +135,19 @@ fun Konsultasi(navController: NavController) {
                             contentDescription = null,
                             alignment = Alignment.Center,
                             modifier = Modifier
-                                .height(90.dp)
-                                .width(90.dp)
+                                .height(70.dp)
+                                .width(70.dp)
                         )
                     }
                 }
 
-                Column {
-                    Text(text = "Dr. Adi Pramono", fontSize = 18.sp, fontFamily = FontFamily(Font(R.font.poppins_semibold)))
+                Column{
+                    Text(text = "Dr. Adi Pramono", fontSize = 14.sp, fontFamily = FontFamily(Font(R.font.poppins_semibold)))
 
                     Text(text = "Dokter Hewan", fontFamily = FontFamily(Font(R.font.poppins_medium)))
                 }
 
-                Column(modifier = Modifier.padding(top = 46.dp)) {
+                Column(modifier = Modifier.padding(top = 25.dp)) {
                     ElevatedButton(
                         onClick = { /*TODO*/ },
                         colors = ButtonDefaults.buttonColors(
@@ -173,19 +173,19 @@ fun Konsultasi(navController: NavController) {
                             contentDescription = null,
                             alignment = Alignment.Center,
                             modifier = Modifier
-                                .height(90.dp)
-                                .width(90.dp)
+                                .height(70.dp)
+                                .width(70.dp)
                         )
                     }
                 }
 
                 Column {
-                    Text(text = "Dr. Mawar Hitam", fontSize = 18.sp, fontFamily = FontFamily(Font(R.font.poppins_semibold)))
+                    Text(text = "Dr. Mawar Hitam", fontSize = 14.sp, fontFamily = FontFamily(Font(R.font.poppins_semibold)))
 
                     Text(text = "Dokter Hewan", fontFamily = FontFamily(Font(R.font.poppins_medium)))
                 }
 
-                Column(modifier = Modifier.padding(top = 46.dp)) {
+                Column(modifier = Modifier.padding(top = 25.dp)) {
                     ElevatedButton(
                         onClick = { /*TODO*/ },
                         colors = ButtonDefaults.buttonColors(
