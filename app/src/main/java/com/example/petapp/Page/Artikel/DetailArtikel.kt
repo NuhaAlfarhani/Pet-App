@@ -20,6 +20,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,70 +40,71 @@ import com.example.petapp.response.ArtikelRespon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailArtikel(navController: NavController, artikelId: Int, listArtikel: Artikel<List<ArtikelRespon>>) {
+fun DetailArtikel(navController: NavController,  artikelId : String?, judulParameter: String?, deskripsiParameter: String?, tglParameter: String?) {
     val baseColor = Color(0xFF00676C)
     val artikel1 = painterResource(id = R.drawable.artikel1)
-    val article = listArtikel.data?.firstOrNull { it.id == artikelId }
+    var judul by remember { mutableStateOf(judulParameter?: "") }
+    var deskripsi by remember { mutableStateOf(deskripsiParameter?: "") }
+    var tgl by remember { mutableStateOf(tglParameter?: "") }
 
-    if(article != null){
 
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Row (
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            IconButton(onClick = { navController.navigate("artikel") }) {
-                                Icon(
-                                    Icons.Default.ArrowBack,
-                                    contentDescription = null,
-                                    tint = Color.White
-                                )
-                            }
-                            Text(text = "Detail Artikel", fontWeight = FontWeight.Bold, fontSize = 24.sp,
-                                fontFamily = FontFamily(Font(R.font.poppins_semibold))
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        IconButton(onClick = { navController.navigate("artikel") }) {
+                            Icon(
+                                Icons.Default.ArrowBack,
+                                contentDescription = null,
+                                tint = Color.White
                             )
                         }
-                    },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(
-                        containerColor = baseColor,
-                        titleContentColor = Color.White,
-                    ),
+                        Text(
+                            text = "Detail Artikel", fontWeight = FontWeight.Bold, fontSize = 24.sp,
+                            fontFamily = FontFamily(Font(R.font.poppins_semibold))
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.smallTopAppBarColors(
+                    containerColor = baseColor,
+                    titleContentColor = Color.White,
+                ),
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(18.dp)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = judul,
+                fontFamily = FontFamily(Font(R.font.poppins_semibold)), fontSize = 16.sp,
+                modifier = Modifier.padding(bottom = 12.dp)
+            )
+
+            Box {
+                Image(
+                    painter = artikel1,
+                    contentDescription = null,
+                    alignment = Alignment.Center,
+                    modifier = Modifier
+                        .height(200.dp)
+                        .width(400.dp)
                 )
             }
-        ) { innerPadding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(18.dp)
-                    .verticalScroll(rememberScrollState()),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = article.attributes.judulArtikel,
-                    fontFamily = FontFamily(Font(R.font.poppins_semibold)), fontSize = 16.sp,
-                    modifier = Modifier.padding(bottom = 12.dp))
 
-                Box{
-                    Image(
-                        painter = artikel1,
-                        contentDescription = null,
-                        alignment = Alignment.Center,
-                        modifier = Modifier
-                            .height(200.dp)
-                            .width(400.dp)
-                    )
-                }
-
-                Text(
-                    text = article.attributes.deskripsiArtikel,
-                    fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                    modifier = Modifier.padding(top = 12.dp))
-            }
+            Text(
+                text = deskripsi,
+                fontFamily = FontFamily(Font(R.font.poppins_medium)),
+                modifier = Modifier.padding(top = 12.dp)
+            )
         }
-    } else {
-
     }
 }

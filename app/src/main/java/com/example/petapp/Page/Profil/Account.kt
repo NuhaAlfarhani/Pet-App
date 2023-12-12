@@ -1,6 +1,7 @@
 package com.example.petapp.Page.Profil
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -61,9 +62,10 @@ import com.example.petapp.R
 fun Account(navController: NavController, context: Context = LocalContext.current) {
     val baseColor = Color(0xFF00676C)
     val profil = painterResource(id = R.drawable.chat1)
-    //var listUser: List<UserRespon> = remember
-    var search by remember { mutableStateOf(TextFieldValue("")) }
     val preferencesManager = remember { PreferencesManager(context = context) }
+//    val sharedPreferences: SharedPreferences = LocalContext.current.getSharedPreferences("auth", Context.MODE_PRIVATE)
+//    val nama = sharedPreferences.getString("nama_lengkap", "") ?: ""
+//    val email = sharedPreferences.getString("email", "") ?: ""
 
     Scaffold(
         topBar = {
@@ -113,11 +115,11 @@ fun Account(navController: NavController, context: Context = LocalContext.curren
                     Column (
                         modifier = Modifier.padding(start = 18.dp)
                     ){
-                        Text(text = "Rizky Billyard",
+                        Text(text = "pppp",
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
                             color = Color.White,
                             fontSize = 14.sp)
-                        Text(text = "suamiidamankamuh@gmail.com",
+                        Text(text = "asdamdkamdl",
                             fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color.White,
                             fontSize = 11.sp)

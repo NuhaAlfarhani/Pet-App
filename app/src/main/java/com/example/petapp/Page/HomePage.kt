@@ -96,8 +96,7 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(18.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(18.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 

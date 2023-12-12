@@ -32,6 +32,8 @@ import com.example.petapp.Page.OnBoarding3
 import com.example.petapp.Page.HomePage
 import com.example.petapp.Page.Penitipan.Penitipan
 import com.example.petapp.Page.Profil.Account
+import com.example.petapp.response.Artikel
+import com.example.petapp.response.ArtikelRespon
 
 class MainActivity : ComponentActivity() {
 
@@ -72,9 +74,13 @@ class MainActivity : ComponentActivity() {
                 composable(route = "artikel") {
                     Artikel(navController)
                 }
-                composable("detailartikel/{artikelId}") { backStackEntry ->
-                    val artikelId = backStackEntry.arguments?.getInt("artikelId") ?: 0
-                    DetailArtikel(navController = navController, artikelId = artikelId)
+                composable("detailartikel/{artikelId}/{judul_artikel}/{deskripsi_artikel}/{tgl_publikasi}") { backStackEntry ->
+                    DetailArtikel(navController,
+                        backStackEntry.arguments?.getString("artikelId"),
+                        backStackEntry.arguments?.getString("judul_artikel"),
+                        backStackEntry.arguments?.getString("deskripsi_artikel"),
+                        backStackEntry.arguments?.getString("tgl_publikasi"),
+                    )
                 }
                 composable(route = "konsultasi") {
                     Konsultasi(navController)

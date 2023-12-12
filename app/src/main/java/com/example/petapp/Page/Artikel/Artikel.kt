@@ -171,7 +171,7 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable { navController.navigate("detailartikel/${artikel.id}") }
+                                .clickable { navController.navigate("detailartikel/" + artikel.id + "/" + artikel.attributes.judulArtikel + "/" + artikel.attributes.deskripsiArtikel + "/" + artikel.attributes.tglPublikasi) }
                         ) {
                             Box {
                                 Image(
@@ -182,7 +182,7 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
                                         .height(100.dp)
                                         .width(100.dp)
                                         .padding(end = 12.dp)
-                                        .clickable { navController.navigate("detailartikel/${artikel.id}") }
+                                        .clickable { navController.navigate("detailartikel/" + artikel.id + "/" + artikel.attributes.judulArtikel + "/" + artikel.attributes.deskripsiArtikel + "/" + artikel.attributes.tglPublikasi) }
                                 )
                             }
 
