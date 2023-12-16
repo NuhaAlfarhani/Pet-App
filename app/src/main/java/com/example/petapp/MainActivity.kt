@@ -21,6 +21,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.petapp.Page.Account
 import com.example.petapp.Page.Artikel.Artikel
 import com.example.petapp.Page.Artikel.DetailArtikel
 import com.example.petapp.Page.Artikel.Konsultasi
@@ -31,7 +32,7 @@ import com.example.petapp.Page.OnBoarding2
 import com.example.petapp.Page.OnBoarding3
 import com.example.petapp.Page.HomePage
 import com.example.petapp.Page.Penitipan.Penitipan
-import com.example.petapp.Page.Profil.Account
+import com.example.petapp.Page.Profil.Profil
 import com.example.petapp.response.Artikel
 import com.example.petapp.response.ArtikelRespon
 
@@ -88,6 +89,9 @@ class MainActivity : ComponentActivity() {
                 composable(route = "penitipan") {
                     Penitipan(navController)
                 }
+                composable(route = "profil") {
+                    Profil(navController)
+                }
                 composable(route = "account") {
                     Account(navController)
                 }
@@ -122,7 +126,7 @@ fun BottomNavigation(navController: NavController) {
             BottomNavItem(
                 label = "Profile",
                 icon = Icons.Default.AccountCircle,
-                route = "account"
+                route = "profil"
             )
         )
         bottomNavigation.map {
