@@ -106,6 +106,7 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
                     search = newText
                 },
                 label = { Text(text = "Search", fontFamily = FontFamily(Font(R.font.poppins_regular))) },
+                shape = RoundedCornerShape(30.dp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 6.dp),

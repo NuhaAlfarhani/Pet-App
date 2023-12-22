@@ -96,9 +96,17 @@ class MainActivity : ComponentActivity() {
                     Account(navController)
                 }
 //                composable(
-//                    route = "edituser/{userid}/{username}/{email}",
+//                    route = "account/{userid}/{nama_lengkap}/{username}/{email}/{password}/{no_hp}/{alamat}",
 //                ) {backStackEntry ->
-//                    EditUser(navController, backStackEntry.arguments?.getString("userid"), backStackEntry.arguments?.getString("username"), backStackEntry.arguments?.getString("email"))
+//                    Account(navController,
+//                        backStackEntry.arguments?.getString("userid"),
+//                        backStackEntry.arguments?.getString("nama_lengkap"),
+//                        backStackEntry.arguments?.getString("username"),
+//                        backStackEntry.arguments?.getString("email"),
+//                        backStackEntry.arguments?.getString("password"),
+//                        backStackEntry.arguments?.getString("no_hp"),
+//                        backStackEntry.arguments?.getString("alamat"),
+//                        )
 //                }
             }
         }
@@ -131,7 +139,7 @@ fun BottomNavigation(navController: NavController) {
         )
         bottomNavigation.map {
             NavigationBarItem(
-                selected = it.label == bottomNavigation[0].label,
+                selected = navController.currentDestination?.route == it.route,
                 onClick = { navController.navigate(it.route) },
                 icon = { Icon(imageVector = it.icon, contentDescription = it.label) },
                 label = {Text(text = it.label)},
