@@ -53,6 +53,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.petapp.PreferencesManager
 import com.example.petapp.R
 import com.example.petapp.data.RegisterData
 import com.example.petapp.response.LoginRespon
@@ -67,16 +68,13 @@ import retrofit2.converter.gson.GsonConverterFactory
 @Composable
 fun Account(navController: NavController, context: Context = LocalContext.current){
     val baseColor = Color(0xFF00676C)
-    var nama by remember { mutableStateOf(TextFieldValue("")) }
-    var username by remember { mutableStateOf(TextFieldValue("")) }
-    var password by remember { mutableStateOf(TextFieldValue("")) }
-    var email by remember { mutableStateOf(TextFieldValue("")) }
-    var nohp by remember { mutableStateOf(TextFieldValue("")) }
-    var alamat by remember { mutableStateOf(TextFieldValue("")) }
+    val preferencesManager = remember { PreferencesManager(context = context) }
+    var nama = preferencesManager.getData("namaUser")
+    var email = preferencesManager.getData("email")
+    var nohp = preferencesManager.getData("noHp")
+    var alamat = preferencesManager.getData("alamat")
+    var username = preferencesManager.getData("username")
 
-    val eyeOpen = painterResource(id = R.drawable.view)
-    val eyeClose = painterResource(id = R.drawable.hidden)
-    var passwordVisibility by remember { mutableStateOf(false) }
     Scaffold (
         topBar = {
             TopAppBar(
@@ -157,37 +155,6 @@ fun Account(navController: NavController, context: Context = LocalContext.curren
                         Icons.Default.Email,
                         contentDescription = "Email",
                     )
-                }
-            )
-
-            OutlinedTextField(
-                value = password,
-                onValueChange = { newText ->
-                    password = newText
-                },
-                label = { Text(text = "Password", fontFamily = FontFamily(Font(R.font.poppins_regular))) },
-                visualTransformation =
-                if (passwordVisibility) VisualTransformation.None
-                else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 6.dp),
-                leadingIcon = {
-                    Icon(
-                        Icons.Default.Lock,
-                        contentDescription = "Password",
-                    )
-                },
-                trailingIcon = {
-                    IconButton(onClick = { passwordVisibility = !passwordVisibility }) {
-                        val icon = if (passwordVisibility) eyeOpen else eyeClose
-                        Image(
-                            painter = icon,
-                            contentDescription = if (passwordVisibility) "Hide Password" else "Show Password",
-                            modifier = Modifier.size(24.dp),
-                        )
-                    }
                 }
             )
 

@@ -50,6 +50,7 @@ import androidx.navigation.NavController
 import com.example.petapp.PreferencesManager
 import com.example.petapp.R
 import com.example.petapp.data.LoginData
+import com.example.petapp.data.UserRole
 import com.example.petapp.response.LoginRespon
 import com.example.petapp.service.LoginService
 import retrofit2.Call
@@ -73,8 +74,14 @@ fun Login(navController: NavController, context: Context = LocalContext.current)
     var baseUrl = "http://10.0.2.2:1337/api/"
     //var baseUrl = "http://10.217.17.11:1337/api/"
     var jwt by remember { mutableStateOf("") }
+    var namaUser by remember { mutableStateOf("") }
+    var usernameUser by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var noHp by remember { mutableStateOf("") }
+    var alamat by remember { mutableStateOf("") }
 
     jwt = preferencesManager.getData("jwt")
+
     Scaffold (
         topBar = {
             TopAppBar(title = { Text(text = "Sign In", fontWeight = FontWeight.Bold, fontSize = 24.sp,
@@ -159,11 +166,31 @@ fun Login(navController: NavController, context: Context = LocalContext.current)
                 val call = retrofit.getData(LoginData(username.text, password.text))
                 call.enqueue(object : Callback<LoginRespon> {
                     override fun onResponse(call: Call<LoginRespon>, response: Response<LoginRespon>) {
-                        print(response.code())
+//                        print(response.code())
                         if(response.code() == 200){
-                            jwt = response.body()?.jwt!!
+                            val body = response.body()
+                            val role = body?.user?.peran?: UserRole.User
+//                            println(body)
+
+                            jwt = body?.jwt ?: ""
                             preferencesManager.saveData("jwt", jwt)
-                            navController.navigate("homepage")
+
+                            usernameUser = body?.user?.username.orEmpty()
+                            email = body?.user?.email.orEmpty()
+                            namaUser = body?.user?.namaLengkap.orEmpty()
+                            noHp = body?.user?.noHp.orEmpty()
+                            alamat = body?.user?.alamat.orEmpty()
+
+                            preferencesManager.saveData("username", usernameUser)
+                            preferencesManager.saveData("email", email)
+                            preferencesManager.saveData("namaUser", namaUser)
+                            preferencesManager.saveData("noHp", noHp)
+                            preferencesManager.saveData("alamat", alamat)
+
+                            when (role) {
+                                UserRole.Toko -> navController.navigate("homepagetoko")
+                                else -> navController.navigate("homepage")
+                            }
                         }else if(response.code() == 400){
                             print("error login")
                             var toast = Toast.makeText(context, "Username atau password salah", Toast.LENGTH_SHORT).show()

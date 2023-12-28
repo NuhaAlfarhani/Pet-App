@@ -73,6 +73,12 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
                         fontFamily = FontFamily(Font(R.font.poppins_semibold)))
                     IconButton(modifier = Modifier.padding(start = 320.dp), onClick = {
                         preferencesManager.saveData("jwt", "")
+                        preferencesManager.saveData("username", "")
+                        preferencesManager.saveData("email", "")
+                        preferencesManager.saveData("namaUser", "")
+                        preferencesManager.saveData("noHp", "")
+                        preferencesManager.saveData("alamat", "")
+                        preferencesManager.saveData("peran", "")
                         navController.navigate("login")
                     }) {
                         Icon(

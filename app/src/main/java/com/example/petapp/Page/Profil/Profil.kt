@@ -53,8 +53,8 @@ fun Profil(navController: NavController, context: Context = LocalContext.current
     val profil = painterResource(id = R.drawable.chat1)
     val preferencesManager = remember { PreferencesManager(context = context) }
 //    val sharedPreferences: SharedPreferences = LocalContext.current.getSharedPreferences("auth", Context.MODE_PRIVATE)
-//    val nama = sharedPreferences.getString("nama_lengkap", "") ?: ""
-//    val email = sharedPreferences.getString("email", "") ?: ""
+    var nama = preferencesManager.getData("namaUser")
+    var email = preferencesManager.getData("email")
 
     Scaffold(
         topBar = {
@@ -104,11 +104,11 @@ fun Profil(navController: NavController, context: Context = LocalContext.current
                     Column (
                         modifier = Modifier.padding(start = 18.dp)
                     ){
-                        Text(text = "pppp",
+                        Text(text = nama,
                             fontFamily = FontFamily(Font(R.font.poppins_bold)),
                             color = Color.White,
                             fontSize = 14.sp)
-                        Text(text = "asdamdkamdl",
+                        Text(text = email,
                             fontFamily = FontFamily(Font(R.font.poppins_regular)),
                             color = Color.White,
                             fontSize = 11.sp)
@@ -166,11 +166,23 @@ fun Profil(navController: NavController, context: Context = LocalContext.current
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.clickable {
                         preferencesManager.saveData("jwt", "")
+                        preferencesManager.saveData("username", "")
+                        preferencesManager.saveData("email", "")
+                        preferencesManager.saveData("namaUser", "")
+                        preferencesManager.saveData("noHp", "")
+                        preferencesManager.saveData("alamat", "")
+                        preferencesManager.saveData("peran", "")
                         navController.navigate("login")
                     }
                 ) {
                     IconButton(onClick = {
                         preferencesManager.saveData("jwt", "")
+                        preferencesManager.saveData("username", "")
+                        preferencesManager.saveData("email", "")
+                        preferencesManager.saveData("namaUser", "")
+                        preferencesManager.saveData("noHp", "")
+                        preferencesManager.saveData("alamat", "")
+                        preferencesManager.saveData("peran", "")
                         navController.navigate("login")
                     }) {
                         Icon(
