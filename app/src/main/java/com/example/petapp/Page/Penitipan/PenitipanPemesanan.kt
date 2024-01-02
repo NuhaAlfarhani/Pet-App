@@ -1,4 +1,4 @@
-package com.example.petapp.Page.Produk
+package com.example.petapp.Page.Penitipan
 
 import android.content.Context
 import android.widget.Toast
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ButtonDefaults
@@ -22,22 +21,20 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.petapp.PreferencesManager
-import com.example.petapp.R
 import com.example.petapp.data.ProdukData
 import com.example.petapp.data.ProdukDataWrapper
 import com.example.petapp.response.ProdukRespon
@@ -50,12 +47,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateProduk(navController: NavController,  context: Context = LocalContext.current) {
+fun PenitipanPemesanan(navController: NavController, context: Context = LocalContext.current) {
     val preferencesManager = remember { PreferencesManager(context = context) }
     val baseColor = Color(0xFF00676C)
     val namaProduk = remember { mutableStateOf(TextFieldValue("")) }
-    val deskrispiProduk = remember { mutableStateOf(TextFieldValue("")) }
     val harga = remember { mutableStateOf(TextFieldValue("")) }
+    val jam = remember { mutableStateOf(TextFieldValue("")) }
 
     Scaffold (
         topBar = {
@@ -64,14 +61,14 @@ fun CreateProduk(navController: NavController,  context: Context = LocalContext.
                     Row (
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        IconButton(onClick = { navController.navigate("homepagetoko") }) {
+                        IconButton(onClick = { navController.navigate("penitipandetail") }) {
                             Icon(
                                 Icons.Default.ArrowBack,
                                 contentDescription = null,
                                 tint = Color.White
                             )
                         }
-                        Text(text = "Tambah Produk", fontFamily = FontFamily(Font(R.font.poppins_semibold)), fontSize = 24.sp)
+                        Text(text = "Pemesanan", fontWeight = FontWeight.Bold, fontSize = 28.sp)
                     }
                 },
                 colors = TopAppBarDefaults.smallTopAppBarColors(
@@ -104,7 +101,6 @@ fun CreateProduk(navController: NavController,  context: Context = LocalContext.
                 onValueChange = {
                     harga.value = it
                 },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 label = { Text(text = "Harga") },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -112,48 +108,18 @@ fun CreateProduk(navController: NavController,  context: Context = LocalContext.
             )
 
             OutlinedTextField(
-                value = deskrispiProduk.value,
+                value = jam.value,
                 onValueChange = {
-                    deskrispiProduk.value = it
+                    jam.value = it
                 },
-                label = { Text(text = "Deskripsi Produk") },
+                label = { Text(text = "Jam") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 38.dp),
             )
 
             ElevatedButton(onClick = {
-                var baseUrl = "http://10.0.2.2:1337/api/"
-                val retrofit = Retrofit.Builder()
-                    .baseUrl(baseUrl)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(ProdukService::class.java)
-                val produkData = ProdukDataWrapper(ProdukData(namaProduk.value.text, harga.value.text.toInt(), deskrispiProduk.value.text,))
-                val call = retrofit.createProduk(produkData)
-                call.enqueue(object : Callback<ProdukRespon> {
-                    override fun onResponse(
-                        call: Call<ProdukRespon>,
-                        response: Response<ProdukRespon>
-                    ) {
-                        print(response.code())
-                        if (response.isSuccessful) {
-                            navController.navigate("homepagetoko")
-                        } else {
-                            print("error create")
-                            var toast = Toast.makeText(
-                                context,
-                                "Error creating: ${response.errorBody()?.string()}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
 
-                    override fun onFailure(call: Call<ProdukRespon>, t: Throwable) {
-                        print(t.message)
-                    }
-
-                })
             },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -163,7 +129,7 @@ fun CreateProduk(navController: NavController,  context: Context = LocalContext.
                     containerColor = baseColor,
                     contentColor = Color.White),
             ) {
-                Text(text = "Tambah", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp )
+                Text(text = "Pesan", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp )
             }
         }
     }

@@ -6,6 +6,7 @@ class RegisterData (
     val username:String,
     val password: String,
     val no_hp:String,
-    val alamat:String
-    )
+    val alamat:String,
+    val peran: String
+)
 

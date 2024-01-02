@@ -65,7 +65,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Register(navController: NavController, context: Context = LocalContext.current){
+fun RegisterToko(navController: NavController, context: Context = LocalContext.current){
     val baseColor = Color(0xFF00676C)
     val imageRegister = painterResource(id = R.drawable.register)
     var nama by remember { mutableStateOf(TextFieldValue("")) }
@@ -224,7 +224,7 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(RegisterService::class.java)
-                val call = retrofit.saveData(RegisterData(nama.text, email.text, username.text, password.text, nohp.text, alamat.text, peran = "User"))
+                val call = retrofit.saveData(RegisterData(nama.text, email.text, username.text, password.text, nohp.text, alamat.text, peran = "Toko"))
                 call.enqueue(object : Callback<LoginRespon> {
                     override fun onResponse(
                         call: Call<LoginRespon>,
@@ -232,7 +232,7 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                     ) {
                         print(response.code())
                         if (response.code() == 200) {
-                            navController.navigate("homepage")
+                            navController.navigate("homepagetoko")
                         } else if (response.code() == 400) {
                             print("error register")
                             var toast = Toast.makeText(
@@ -261,7 +261,7 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
             }
 
             ElevatedButton(onClick = {
-                navController.navigate("registertoko")
+                navController.navigate("register")
             },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -271,7 +271,7 @@ fun Register(navController: NavController, context: Context = LocalContext.curre
                     containerColor = baseColor,
                     contentColor = Color.White),
             ) {
-                Text(text = "Sign Up as Store", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.poppins_medium)) )
+                Text(text = "Sign Up as User", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp, fontFamily = FontFamily(Font(R.font.poppins_medium)) )
             }
 
             Row {

@@ -25,20 +25,20 @@ import com.example.petapp.Page.Account
 import com.example.petapp.Page.Artikel.Artikel
 import com.example.petapp.Page.Artikel.DetailArtikel
 import com.example.petapp.Page.Artikel.Konsultasi
+import com.example.petapp.Page.HomePage
+import com.example.petapp.Page.HomePageToko
 import com.example.petapp.Page.Login
-import com.example.petapp.Page.Register
 import com.example.petapp.Page.OnBoarding1
 import com.example.petapp.Page.OnBoarding2
 import com.example.petapp.Page.OnBoarding3
-import com.example.petapp.Page.HomePage
-import com.example.petapp.Page.HomePageToko
 import com.example.petapp.Page.Penitipan.Penitipan
+import com.example.petapp.Page.Penitipan.PenitipanDetail
+import com.example.petapp.Page.Penitipan.PenitipanPemesanan
 import com.example.petapp.Page.Produk.CreateProduk
 import com.example.petapp.Page.Produk.EditProduk
 import com.example.petapp.Page.Profil.Profil
-import com.example.petapp.data.UserRole
-import com.example.petapp.response.Artikel
-import com.example.petapp.response.ArtikelRespon
+import com.example.petapp.Page.Register
+import com.example.petapp.Page.RegisterToko
 
 class MainActivity : ComponentActivity() {
 
@@ -99,6 +99,9 @@ class MainActivity : ComponentActivity() {
                 composable(route = "register") {
                     Register(navController)
                 }
+                composable(route = "registertoko") {
+                    RegisterToko(navController)
+                }
                 composable(route = "artikel") {
                     Artikel(navController)
                 }
@@ -115,6 +118,12 @@ class MainActivity : ComponentActivity() {
                 }
                 composable(route = "penitipan") {
                     Penitipan(navController)
+                }
+                composable(route = "penitipandetail") {
+                    PenitipanDetail(navController)
+                }
+                composable(route = "pemesanan") {
+                    PenitipanPemesanan(navController)
                 }
                 composable(route = "profil") {
                     Profil(navController)
