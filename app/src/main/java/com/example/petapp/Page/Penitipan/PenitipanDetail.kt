@@ -204,8 +204,11 @@ fun PenitipanDetail(navController: NavController, context: Context = LocalContex
                             Column(modifier = Modifier.padding(top = 5.dp)) {
                                 Row {
                                     IconButton(onClick = {
-                                        navController.navigate("pemesanan")
-                                    }) {
+                                        navController.navigate("pemesanan/"
+                                                + produk.id
+                                                + "/" + produk.attributes.namaProduk
+                                                + "/" + produk.attributes.harga
+                                                + "/" + produk.attributes.deskripsiProduk)                                    }) {
                                         Icon(
                                             Icons.Default.Add,
                                             contentDescription = "Booking",

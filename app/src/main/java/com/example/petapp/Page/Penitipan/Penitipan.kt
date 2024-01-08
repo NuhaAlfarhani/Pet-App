@@ -206,7 +206,7 @@ fun Penitipan(navController: NavController, context: Context = LocalContext.curr
                                             .height(100.dp)
                                             .width(100.dp)
                                             .padding(end = 12.dp)
-                                            .clickable { navController.navigate("homepage") }
+                                            .clickable { navController.navigate("penitipandetail") }
                                     )
                                 }
 

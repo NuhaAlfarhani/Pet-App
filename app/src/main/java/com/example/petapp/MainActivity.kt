@@ -122,8 +122,25 @@ class MainActivity : ComponentActivity() {
                 composable(route = "penitipandetail") {
                     PenitipanDetail(navController)
                 }
-                composable(route = "pemesanan") {
-                    PenitipanPemesanan(navController)
+                composable(
+                    route = "pemesanan/{produkid}/{namaProduk}/{harga}/{deskripsiProduk}",
+                ) {backStackEntry ->
+                    PenitipanPemesanan(navController,
+                        backStackEntry.arguments?.getString("produkid"),
+                        backStackEntry.arguments?.getString("namaProduk"),
+                        backStackEntry.arguments?.getString("harga"),
+                        backStackEntry.arguments?.getString("deskripsiProduk")
+                    )
+                }
+                composable(
+                    route = "editproduk/{produkid}/{namaProduk}/{harga}/{deskripsiProduk}",
+                ) {backStackEntry ->
+                    EditProduk(navController,
+                        backStackEntry.arguments?.getString("produkid"),
+                        backStackEntry.arguments?.getString("namaProduk"),
+                        backStackEntry.arguments?.getString("harga"),
+                        backStackEntry.arguments?.getString("deskripsiProduk")
+                    )
                 }
                 composable(route = "profil") {
                     Profil(navController)
@@ -146,16 +163,6 @@ class MainActivity : ComponentActivity() {
 //                }
                 composable(route = "tambahProduk") {
                     CreateProduk(navController)
-                }
-                composable(
-                    route = "editproduk/{produkid}/{namaProduk}/{harga}/{deskripsiProduk}",
-                ) {backStackEntry ->
-                    EditProduk(navController,
-                        backStackEntry.arguments?.getString("produkid"),
-                        backStackEntry.arguments?.getString("namaProduk"),
-                        backStackEntry.arguments?.getString("harga"),
-                        backStackEntry.arguments?.getString("deskripsiProduk")
-                    )
                 }
             }
         }
