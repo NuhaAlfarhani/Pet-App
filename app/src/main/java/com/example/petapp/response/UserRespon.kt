@@ -20,4 +20,19 @@ class UserRespon {
     var alamat: String = ""
     @SerializedName("peran")
     var peran: UserRole = UserRole.User
+    @SerializedName("img")
+    var img: UserImgResponse? = null
+}
+class UserImgResponse {
+    @SerializedName("id")
+    var id: Int = 0
+    @SerializedName("attributes")
+    var attributes: UserImgAttributes = UserImgAttributes()
+}
+
+class UserImgAttributes {
+    @SerializedName("name")
+    var name: String = ""
+    @SerializedName("url")
+    var url : String = ""
 }

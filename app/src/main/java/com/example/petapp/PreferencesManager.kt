@@ -21,4 +21,5 @@ class PreferencesManager (context: Context){
     fun getData(key: String) : String{
         return sharedPreferences.getString(key, "") ?: ""
     }
+
 }

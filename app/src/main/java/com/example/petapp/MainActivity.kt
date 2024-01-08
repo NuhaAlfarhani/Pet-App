@@ -2,9 +2,11 @@ package com.example.petapp
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Email
@@ -31,6 +33,7 @@ import com.example.petapp.Page.Login
 import com.example.petapp.Page.OnBoarding1
 import com.example.petapp.Page.OnBoarding2
 import com.example.petapp.Page.OnBoarding3
+import com.example.petapp.Page.Penitipan.Pemesanan
 import com.example.petapp.Page.Penitipan.Penitipan
 import com.example.petapp.Page.Penitipan.PenitipanDetail
 import com.example.petapp.Page.Penitipan.PenitipanPemesanan
@@ -42,6 +45,7 @@ import com.example.petapp.Page.RegisterToko
 
 class MainActivity : ComponentActivity() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -119,6 +123,9 @@ class MainActivity : ComponentActivity() {
                 composable(route = "penitipan") {
                     Penitipan(navController)
                 }
+                composable(route = "pemesanan") {
+                    Pemesanan(navController)
+                }
                 composable(route = "penitipandetail") {
                     PenitipanDetail(navController)
                 }
@@ -180,7 +187,7 @@ fun BottomNavigation(navController: NavController) {
             BottomNavItem(
                 label = "Pesanan",
                 icon = Icons.Default.ShoppingCart,
-                route = "pesanan"
+                route = "pemesanan"
             ),
             BottomNavItem(
                 label = "Chat",

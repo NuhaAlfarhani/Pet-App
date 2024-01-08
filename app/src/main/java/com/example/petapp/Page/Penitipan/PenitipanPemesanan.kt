@@ -3,20 +3,15 @@ package com.example.petapp.Page.Penitipan
 import android.app.TimePickerDialog
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,7 +20,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -38,19 +32,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.petapp.PreferencesManager
 import com.example.petapp.data.PemesananData
 import com.example.petapp.data.PemesananDataWrapper
-import com.example.petapp.data.ProdukData
-import com.example.petapp.data.ProdukDataWrapper
 import com.example.petapp.response.PemesananRespon
-import com.example.petapp.response.ProdukRespon
 import com.example.petapp.service.PemesananService
-import com.example.petapp.service.ProdukService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -196,7 +185,7 @@ fun PenitipanPemesanan(navController: NavController,  produkid : String?, namaPa
                         print(response.code())
                         if (response.isSuccessful) {
                             val resp = response.body()
-                            navController.navigate("homepage")
+                            navController.navigate("pemesanan")
                         } else {
                             print("error create")
                             var toast = Toast.makeText(

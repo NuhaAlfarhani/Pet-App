@@ -201,10 +201,11 @@ fun Profil(navController: NavController, context: Context = LocalContext.current
 
                     Icon(
                         Icons.Default.KeyboardArrowRight,
-                        contentDescription = "Sign Out",
+                        contentDescription = "Account",
                         tint = Color.Black,
-                        modifier = Modifier.padding(start = 190.dp)
+                        modifier = Modifier.padding(start = 200.dp)
                     )
+
                 }
             }
         }

@@ -2,6 +2,7 @@ package com.example.petapp.Page
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -71,7 +72,7 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
                 title = {
                     Text(text = "Home Page", modifier = Modifier.padding(top = 5.dp), fontWeight = FontWeight.Bold, fontSize = 24.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_semibold)))
-                    IconButton(modifier = Modifier.padding(start = 320.dp), onClick = {
+                    IconButton(modifier = Modifier.padding(start = 320.dp, top = 5.dp), onClick = {
                         preferencesManager.saveData("jwt", "")
                         preferencesManager.saveData("username", "")
                         preferencesManager.saveData("email", "")
@@ -102,7 +103,8 @@ fun HomePage(navController: NavController, context: Context = LocalContext.curre
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(18.dp),
+                .padding(18.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 

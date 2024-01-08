@@ -2,24 +2,31 @@ package com.example.petapp.Page.Penitipan
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -34,20 +41,32 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.petapp.PreferencesManager
 import com.example.petapp.R
+import com.example.petapp.data.UserRole
+import com.example.petapp.response.Artikel
+import com.example.petapp.response.ArtikelRespon
+import com.example.petapp.response.Pemesanan
+import com.example.petapp.response.PemesananRespon
+import com.example.petapp.response.PenitipanRespon
 import com.example.petapp.response.Produk
 import com.example.petapp.response.ProdukRespon
-import com.example.petapp.service.ProdukService
+import com.example.petapp.response.UserRespon
+import com.example.petapp.service.ArtikelService
+import com.example.petapp.service.PemesananService
+import com.example.petapp.service.PenitipanService
+import com.example.petapp.service.UserService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -56,30 +75,31 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PenitipanDetail(navController: NavController, context: Context = LocalContext.current) {
+fun Pemesanan(navController: NavController, context: Context = LocalContext.current){
     val baseColor = Color(0xFF00676C)
-    //var listUser: List<UserRespon> = remember
-    var search by remember { mutableStateOf(TextFieldValue("")) }
-    val preferencesManager = remember { PreferencesManager(context = context) }
-
-    val listProduk = remember { mutableStateListOf<ProdukRespon>() }
+    val profil = painterResource(id = R.drawable.pppenitipan)
+    var search by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    val listPemesanan = remember { mutableStateListOf<PemesananRespon>() }
+    //var listUser: List<UserRespon> by remember { mutableStateOf(List<UserRespon>()) }
     var baseUrl = "http://10.0.2.2:1337/api/"
     //var baseUrl = "http://10.217.17.11:1337/api/"
     val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-        .create(ProdukService::class.java)
-    val call = retrofit.getData()
-    call.enqueue(object : Callback<Produk<List<ProdukRespon>>> {
+        .create(PemesananService::class.java)
+    val call = retrofit.getData(search.text,"*")
+    call.enqueue(object : Callback<Pemesanan<List<PemesananRespon>>> {
         override fun onResponse(
-            call: Call<Produk<List<ProdukRespon>>>,
-            response: Response<Produk<List<ProdukRespon>>>
+            call: Call<Pemesanan<List<PemesananRespon>>>,
+            response: Response<Pemesanan<List<PemesananRespon>>>
         ) {
             if (response.isSuccessful) {
-                listProduk.clear()
-                response.body()?.data!!.forEach{ produkRespon : ProdukRespon->
-                    listProduk.add(produkRespon)
+                listPemesanan.clear()
+                response.body()?.data!!.forEach{ pemesananRespon : PemesananRespon ->
+                    listPemesanan.add(pemesananRespon)
                 }
             } else {
                 print("Error getting data. Code: ${response.code()}")
@@ -91,7 +111,7 @@ fun PenitipanDetail(navController: NavController, context: Context = LocalContex
             }
         }
 
-        override fun onFailure(call: Call<Produk<List<ProdukRespon>>>, t: Throwable) {
+        override fun onFailure(call: Call<Pemesanan<List<PemesananRespon>>>, t: Throwable) {
             print(t.message)
             Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
         }
@@ -103,15 +123,8 @@ fun PenitipanDetail(navController: NavController, context: Context = LocalContex
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = { navController.navigate("penitipan") }) {
-                        Icon(
-                            Icons.Default.ArrowBack,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
                     Text(
-                        text = "Penitipan Hewan",
+                        text = "Pemesanan",
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp,
                         fontFamily = FontFamily(
@@ -165,60 +178,49 @@ fun PenitipanDetail(navController: NavController, context: Context = LocalContex
                 )
             )
 
-            Text(
-                text = "Daftar list Treatment dan Harga",
-                fontFamily = FontFamily(Font(R.font.poppins_medium)),
-                modifier = Modifier
-                    .padding(top = 12.dp, bottom = 12.dp)
-            )
-
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(1.dp)
-                    .background(Color.Gray)
-            )
             LazyColumn {
-                listProduk?.forEach { produk ->
+                listPemesanan?.forEach { pemesanan ->
                     item {
                         Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(top = 18.dp, bottom = 18.dp)
+                                .padding(16.dp)
+                                .clickable { navController.navigate("penitipandetail") }
                         ) {
-
-                            Column {
-                                Text(
-                                    text = produk.attributes.namaProduk,
-                                    fontSize = 16.sp,
-                                    fontFamily = FontFamily(Font(R.font.poppins_semibold))
-                                )
-
-                                Text(
-                                    text = "Rp " + produk.attributes.harga.toString(),
-                                    fontFamily = FontFamily(Font(R.font.poppins_regular))
+                            Box(
+                                modifier = Modifier
+                                    .size(100.dp)
+                                    .clip(MaterialTheme.shapes.medium)
+                            ) {
+                                Image(
+                                    painter = profil,
+                                    contentDescription = null,
+                                    alignment = Alignment.Center,
+                                    modifier = Modifier
+                                        .height(100.dp)
+                                        .width(100.dp)
+                                        .padding(end = 12.dp)
+                                        .clickable { navController.navigate("penitipandetail") }
                                 )
                             }
 
-                            Column(modifier = Modifier.padding(top = 5.dp)) {
-                                Row {
-                                    IconButton(onClick = {
-                                        navController.navigate("pemesanan/"
-                                                + produk.id + "/"
-                                                + produk.attributes.namaProduk + "/"
-                                                + produk.attributes.harga + "/"
-                                                + produk.attributes.deskripsiProduk)
-                                    }) {
-                                        Icon(
-                                            Icons.Default.Add,
-                                            contentDescription = "Booking",
-                                            tint = baseColor
-                                        )
-                                    }
-                                }
+                            Column (
+                                modifier = Modifier.padding(start = 16.dp)
+                            ){
+                                Text(
+                                    text = pemesanan.attributes.namaPemesan,
+                                    fontFamily = FontFamily(Font(R.font.poppins_semibold)),
+                                    fontSize = 16.sp,
+                                )
+
+                                Text(
+                                    text = pemesanan.attributes.total.toString(),
+                                    fontFamily = FontFamily(Font(R.font.poppins_medium))
+                                )
                             }
                         }
+
 
                         Divider(
                             modifier = Modifier
@@ -226,10 +228,10 @@ fun PenitipanDetail(navController: NavController, context: Context = LocalContex
                                 .height(1.dp)
                                 .background(Color.Gray)
                         )
-
                     }
                 }
             }
         }
+
     }
 }

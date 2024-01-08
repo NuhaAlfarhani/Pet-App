@@ -106,7 +106,7 @@ fun HomePageToko(navController: NavController, context: Context = LocalContext.c
                 title = {
                     Text(text = "Home Page", modifier = Modifier.padding(top = 5.dp), fontWeight = FontWeight.Bold, fontSize = 24.sp,
                         fontFamily = FontFamily(Font(R.font.poppins_semibold)))
-                    IconButton(modifier = Modifier.padding(start = 320.dp), onClick = {
+                    IconButton(modifier = Modifier.padding(start = 320.dp, top = 5.dp), onClick = {
                         preferencesManager.saveData("jwt", "")
                         preferencesManager.saveData("username", "")
                         preferencesManager.saveData("email", "")
