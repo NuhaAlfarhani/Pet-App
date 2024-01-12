@@ -46,6 +46,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.petapp.BottomNavigation
 import com.example.petapp.R
 import com.example.petapp.response.Artikel
 import com.example.petapp.response.ArtikelRespon
@@ -123,6 +124,9 @@ fun Artikel(navController: NavController, context: Context = LocalContext.curren
                     titleContentColor = Color.White,
                 ),
             )
+        },
+        bottomBar = {
+            BottomNavigation(navController)
         }
     ) { innerPadding ->
         Column(

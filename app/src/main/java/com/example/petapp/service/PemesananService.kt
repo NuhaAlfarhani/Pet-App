@@ -20,7 +20,7 @@ interface PemesananService {
     fun save(@Path("id") id: String?, @Body body: PemesananDataWrapper): Call<PemesananRespon>
 
     @GET("pemesanans")
-    fun getData(@Query("filters[namaPemesan][\$contains]") search: String?,@Query("populate") queryParameter: String): Call<Pemesanan<List<PemesananRespon>>>
+    fun getData(@Query("populate") queryParameter: String): Call<Pemesanan<List<PemesananRespon>>>
 
     @DELETE("pemesanans/{id}")
     fun delete(@Path("id") id: Int): Call<PemesananRespon>

@@ -34,6 +34,7 @@ import com.example.petapp.Page.OnBoarding1
 import com.example.petapp.Page.OnBoarding2
 import com.example.petapp.Page.OnBoarding3
 import com.example.petapp.Page.Penitipan.Pemesanan
+import com.example.petapp.Page.Penitipan.PemesananToko
 import com.example.petapp.Page.Penitipan.Penitipan
 import com.example.petapp.Page.Penitipan.PenitipanDetail
 import com.example.petapp.Page.Penitipan.PenitipanPemesanan
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
             var startDestination: String
             var jwt = sharedPreferences.getString("jwt", "")
             if(jwt.equals("")){
-                startDestination = "ob1"
+                startDestination = "login"
             }else{
                 startDestination = "homepage"
             }
@@ -125,6 +126,9 @@ class MainActivity : ComponentActivity() {
                 }
                 composable(route = "pemesanan") {
                     Pemesanan(navController)
+                }
+                composable(route = "pemesanantoko") {
+                    PemesananToko(navController)
                 }
                 composable(route = "penitipandetail") {
                     PenitipanDetail(navController)
@@ -223,7 +227,7 @@ fun BottomNavigationToko(navController: NavController) {
             BottomNavItem(
                 label = "Pesanan",
                 icon = Icons.Default.ShoppingCart,
-                route = "pesanan"
+                route = "pemesanantoko"
             ),
             BottomNavItem(
                 label = "Chat",

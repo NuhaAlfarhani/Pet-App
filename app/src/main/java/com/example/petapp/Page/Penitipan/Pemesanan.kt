@@ -53,6 +53,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.petapp.BottomNavigation
 import com.example.petapp.R
 import com.example.petapp.data.UserRole
 import com.example.petapp.response.Artikel
@@ -90,7 +91,7 @@ fun Pemesanan(navController: NavController, context: Context = LocalContext.curr
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(PemesananService::class.java)
-    val call = retrofit.getData(search.text,"*")
+    val call = retrofit.getData("*")
     call.enqueue(object : Callback<Pemesanan<List<PemesananRespon>>> {
         override fun onResponse(
             call: Call<Pemesanan<List<PemesananRespon>>>,
@@ -140,6 +141,9 @@ fun Pemesanan(navController: NavController, context: Context = LocalContext.curr
                     titleContentColor = Color.White
                 )
             )
+        },
+        bottomBar = {
+            BottomNavigation(navController)
         }
     ) {innerPadding ->
         Column(
@@ -186,7 +190,6 @@ fun Pemesanan(navController: NavController, context: Context = LocalContext.curr
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp)
-                                .clickable { navController.navigate("penitipandetail") }
                         ) {
                             Box(
                                 modifier = Modifier
@@ -209,13 +212,13 @@ fun Pemesanan(navController: NavController, context: Context = LocalContext.curr
                                 modifier = Modifier.padding(start = 16.dp)
                             ){
                                 Text(
-                                    text = pemesanan.attributes.namaPemesan,
+                                    text = "Layanan : ${pemesanan.attributes.produks?.data?.attributes?.namaProduk}",
                                     fontFamily = FontFamily(Font(R.font.poppins_semibold)),
                                     fontSize = 16.sp,
                                 )
 
                                 Text(
-                                    text = pemesanan.attributes.total.toString(),
+                                    text = "Rp " + pemesanan.attributes.total.toString(),
                                     fontFamily = FontFamily(Font(R.font.poppins_medium))
                                 )
                             }
